@@ -14,5 +14,14 @@ contract("Token", function(accounts){
 		assert.equal(name,"Digu's Token","Name is not set correctly");
 		assert.equal(symbol,"Digu",symbol);
 	})
+		
+	it("checks the balances correctly",async function() {
+		const instance = await Token.deployed();
+		const success = await instance.transfer(accounts[1],100,{from: accounts[0]});
+		console.log(success);
+		const balance = await instance._balances(accounts[1]);
+		assert.equal(balance,100,"Balances is not checked correctly");
+	})
+
 }
 )
