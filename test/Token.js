@@ -32,5 +32,14 @@ contract("Token", function(accounts){
 		assert(all,50,"Allowance is not set correctly");
 	})
 
+	it("transferFrom triggered correctly", async function(){
+		const instance = await Token.deployed();
+		const transferFrom = await instance.transferFrom(accounts[1],accounts[2],20,{from: accounts[0]});
+		const sender_balance = await instance.balances(accounts[1]);
+		const receipient = await instance.balances(accounts[2]);
+		assert.equal(sender_balance.toNumber(),80,"Sender balance not deducted correctly");
+		assert.equal(receipient.toNumber(),20,"Recipient balance not deducted correctly");
+	})
+
 }
 )

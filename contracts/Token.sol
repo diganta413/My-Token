@@ -42,6 +42,15 @@ contract Token{
 		allowance[msg.sender][_spender] = _value;
 		emit Approval(msg.sender,_spender,_value);
 		return true;
-  } 
+  }
 
+	function transferFrom(address _spender,address _to,uint256 _value) public returns(bool success) {
+		require(_value <= balances[_spender]);
+		require(_value <= allowance[msg.sender][_spender]);
+		balances[_spender] = balances[_spender]-_value;
+		balances[_to] = balances[_to]+_value;
+		allowance[msg.sender][_spender] = allowance[msg.sender][_spender] - _value;
+		emit Transfer(_spender,_to,_value);
+		return true;
+	}
 }
